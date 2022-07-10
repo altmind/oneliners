@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 BEGIN {
   $cr = Hash.new(0); $cr.default = 0;
 }
@@ -37,7 +38,7 @@ while gets
     next
   end if $_ =~ /^Got:\s+(\+F8):(\d+):(\d+):([^:]+):([^ ]+)/
   begin
-    # crypto and hmacs, sizes: 16,64,256,1024,8*1024
+    # symmetrical, hashes and hmacs, sizes: 16,64,256,1024,8*1024, 16*1024
     $cr["#{$3}-16"] += $4.to_f
     $cr["#{$3}-64"] += $5.to_f
     $cr["#{$3}-256"] += $6.to_f
@@ -47,6 +48,7 @@ while gets
     next
   end if $_ =~ /^Got:\s+(\+F):(\d+):([^:]+):([^:]+):([^:]+):([^:]+):([^:]+):([^:]+):([^: ]+)/
   unless ($_ =~ /^Forked child/ or $_ =~ /^Got: \+H:/)
+    # unknown lines
     STDERR.puts $_
   end
 end
@@ -60,8 +62,6 @@ END{
     puts "#{$cr["md5-1024"]}|#{$cr["sha1-1024"]}|#{$cr["sha256-1024"]}|#{$cr["sha512-1024"]}|#{$cr["des-1024"] }|#{$cr["des-ede3-1024"]}|#{$cr["aes-128-cbc-1024"]}|" +
            "#{$cr["aes-192-cbc-1024"]}|#{$cr["aes-256-cbc-1024"]}|#{$cr["rsa-1024-sign"]}|#{$cr["rsa-1024-verify"]}|#{$cr["dsa-1024-sign"]}|#{$cr["dsa-1024-verify"]}"
   else
-    $cr.each do |k, v|
-      printf "%-30s %20.2f\n", k, v
-    end
+    $cr.each { |k, v| printf "%-30s %20.2f\n", k, v }
   end
 }
