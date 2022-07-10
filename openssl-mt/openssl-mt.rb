@@ -54,13 +54,18 @@ while gets
 end
 
 END{
+  ENV["OUT_FORMAT"] = "bench"
   if (ENV["OUT_FORMAT"]&.downcase == "json")
     require 'json'
     puts JSON.generate($cr)
   elsif (ENV["OUT_FORMAT"]&.downcase == "bench")
-    $cr.each { |k, v| $cr[k] = v.round() }
-    puts "#{$cr["md5-1024"]}|#{$cr["sha1-1024"]}|#{$cr["sha256-1024"]}|#{$cr["sha512-1024"]}|#{$cr["des-1024"] }|#{$cr["des-ede3-1024"]}|#{$cr["aes-128-cbc-1024"]}|" +
-           "#{$cr["aes-192-cbc-1024"]}|#{$cr["aes-256-cbc-1024"]}|#{$cr["rsa-1024-sign"]}|#{$cr["rsa-1024-verify"]}|#{$cr["dsa-1024-sign"]}|#{$cr["dsa-1024-verify"]}"
+
+    # results in 1000s ?
+    print [$cr["md5-1024"], $cr["sha1-1024"], $cr["sha256-1024"], $cr["sha512-1024"], $cr["des-1024"], $cr["des-ede3-8192"],
+           $cr["aes-128-cbc-8192"], $cr["aes-192-cbc-8192"], $cr["aes-256-cbc-8192"]].map { |x| x.round() }.join(" | ")
+    print " | "
+    print ([$cr["rsa-2048-sign"], $cr["rsa-2048-verify"], $cr["dsa-2048-sign"], $cr["dsa-2048-verify"]].map { |x| x.round(1) }.join(" | "))
+    puts " | "
   else
     $cr.each { |k, v| printf "%-30s %20.2f\n", k, v }
   end

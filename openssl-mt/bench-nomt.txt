@@ -1,0 +1,20 @@
+version: 3.1.0-dev
+built on: Sat Jul  9 20:55:53 2022 UTC
+options: bn(64,64)
+compiler: gcc -fPIC -pthread -m64 -Wa,--noexecstack -O3 -march=native -DOPENSSL_USE_NODELETE -DL_ENDIAN -DOPENSSL_PIC -DOPENSSL_BUILDING_OPENSSL -DNDEBUG
+CPUINFO: OPENSSL_ia32cap=0x7ed8320b078bffff:0x400004219c91a9
+The 'numbers' are in 1000s of bytes per second processed.
+type             16 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes  16384 bytes
+md5              53860.95k   161317.99k   376458.53k   556591.10k   646889.47k   654999.55k
+sha1             67211.17k   237909.38k   678632.96k  1242945.54k  1654513.66k  1698982.57k
+sha256           66972.90k   226902.10k   643976.36k  1182681.77k  1561979.56k  1600405.50k
+sha512           33025.66k   133749.28k   303920.30k   521228.97k   680951.81k   700623.53k
+des-cbc              0.00         0.00         0.00         0.00         0.00         0.00 
+des-ede3         27900.77k    28466.73k    28685.74k    28717.40k    28721.15k    28764.84k
+aes-128-cbc     885860.46k  1126463.74k  1210076.07k  1216780.63k  1226153.98k  1229040.30k
+aes-192-cbc     781466.06k   958931.26k  1018005.33k  1034321.92k  1038456.15k  1036189.70k
+aes-256-cbc     695415.60k   842273.22k   884558.34k   886549.16k   896387.75k   897652.05k
+                  sign    verify    sign/s verify/s
+rsa 2048 bits 0.000623s 0.000019s   1605.6  53108.9
+                  sign    verify    sign/s verify/s
+dsa 2048 bits 0.000265s 0.000244s   3775.5   4101.2
